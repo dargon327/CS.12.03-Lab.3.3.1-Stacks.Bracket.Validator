@@ -5,6 +5,21 @@ public class BracketValidator {
     // Method called checkValidParentheses that returns a boolean indicating whether a string of brackets is valid or not.
     public static boolean checkValidParentheses(String expression) {
 
+        public static boolean checkValidParentheses(String expression) {
+        String[] bks = new String[expression.length()];
+        for (int i = 0; i < expression.length(); i++) {
+            bks[i] = "" + expression.charAt(i);
+        }
+        Stack<String> bkStack = new Stack<>();
+        for (String b : bks) {
+            String rbk = getReversedBracket(b);
+            if (isLeftBracket(b)) {
+                bkStack.push(b);
+            }
+            else if (bkStack.isEmpty() || !bkStack.pop().equals(rbk)) {
+                return false;
+            }
+        }
         // Obtain an array of the brackets (each element is a single bracket).
 
         // Create a stack.
@@ -18,21 +33,27 @@ public class BracketValidator {
             // If the stack is empty or if the popped bracket is not equal to the reverse bracket of the current bracket, return false as this must mean that the expression is invalid.
 
         // If the stack is empty after we have finished iterating over the array of brackets, then return true as this must mean that the expression is valid. If the stack is not empty, this must mean that the expression is invalid.
-        return false;
+        return bkStack.isEmpty();
 
     }
 
     // Private helper method called isLeftBracket that returns a boolean value to indicate whether the bracket is a left (opening) bracket.
     private static boolean isLeftBracket(String bracket) {
-
+         if (bracket.equals("(") || bracket.equals("[") || bracket.equals("{")) {
+            return true;
+        }
         return false;
-
     }
 
     // Private helper method called getReversedBracket that returns a String which is the reverse version of the bracket passed to the method.
     private static String getReversedBracket(String bracket) {
-
-        return null;
+        if (bracket.equals("[")) return "]";
+        if (bracket.equals("{")) return "}";
+        if (bracket.equals("(")) return ")";
+        if (bracket.equals("]")) return "[";
+        if (bracket.equals("}")) return "{";
+        if (bracket.equals(")")) return "(";
+        return "invalid";
 
     }
 }
